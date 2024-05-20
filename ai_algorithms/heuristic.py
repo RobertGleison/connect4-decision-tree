@@ -1,8 +1,8 @@
+
 from game import constants as c
-import time, numpy as np
+import numpy as np
 
 def calculate_board_score(board: np.ndarray, piece: int, opponent_piece: int) -> int:
-    start_time = time.time()
     score = 0
 
     # Check horizontal
@@ -28,8 +28,7 @@ def calculate_board_score(board: np.ndarray, piece: int, opponent_piece: int) ->
         for r in range(3, c.ROWS):
             segment = [board[r - i][col + i] for i in range(4)]
             score += weights(segment, piece, opponent_piece)
-    total_time = time.time() - start_time
-    print(f"Total time to calculate heuristic: {total_time:.6f}")
+
     return score
 
 
@@ -42,5 +41,5 @@ def weights(segment: list, piece: int, opponent_piece: int) -> int:
     if segment.count(opponent_piece) == 1: return -1
     if segment.count(opponent_piece) == 2: return -10
     if segment.count(opponent_piece) == 3: return -50
-    if segment.count(opponent_piece) == 4: return -200
+    if segment.count(opponent_piece) == 4: return -2000
     return 0

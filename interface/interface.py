@@ -14,16 +14,14 @@ class Interface:
 
     def print_game_modes(self, value: int) -> None:
         game_modes = {1: 'Human x Human',
-                      2: 'Greedy',
-                      3: 'Predictive Greedy',
-                      4: 'AlphaBeta',
-                      5: 'MCTS'}
+                      2: 'Árvore de Decisão',
+                      3: 'AlphaBeta com Árvore de Decisão',}
         print(f"Modo de jogo escolhido: {game_modes[value]}\n")
 
     def start_game(self, bd: Board) -> None:
         """Set up the conditions to the game, as choose game_mode and draw the pygame display"""
         
-        game_mode = int(input("Selecione um modo de jogo:\n 1- Greedy\n 2- Predictive Greedy\n 3- AlphaBeta\n 4- MCTS\n")) +1
+        game_mode = int(input("Selecione um modo de jogo:\n 1- Árvore de Decisão\n 2- AlphaBeta com Árvore de Decisão\n")) +1
         os.system('clear')
         self.print_game_modes(game_mode)
         bd.print_board()

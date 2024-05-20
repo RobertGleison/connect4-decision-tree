@@ -1,8 +1,7 @@
 import game.constants as c
 import numpy as np, math, logging, os
-from ai_algorithms.mcts_teste import Node
 from game.board import Board
-from ai_algorithms import greedy as g, alpha_beta as a, mcts_teste as m
+from ai_algorithms import alpha_beta as ap_dt, decisision_tree_connect4 as dt
 
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -39,15 +38,12 @@ def ai_move(bd: Board, game_mode: int, board: np.ndarray, turn: int, interface: 
 
 def get_ai_column(board: Board, game_mode: int) -> int:
 	"""Select the chose ai algorithm to make a move"""
+	#  1- Árvore de Decisão\n 2- AlphaBeta com Árvore de Decisão"
 	chosen_column = 0
 	if game_mode == 2:
-		chosen_column = g.greedy(board, c.AI_PIECE, c.HUMAN_PIECE)
+		chosen_column = dt.decisiontree(board)
 	elif game_mode == 3:
-		chosen_column = g.predictive_greedy(board, c.AI_PIECE, c.HUMAN_PIECE)
-	elif game_mode == 4:
-		chosen_column = a.alpha_beta(board)
-	elif game_mode == 5:
-		chosen_column = m.mcts(board)
+		chosen_column = ap_dt.alpha_beta(board)
 	return chosen_column
 
 def simulate_move(board: np.ndarray, piece: int, col: int) -> None | np.ndarray:
@@ -65,13 +61,13 @@ def get_next_open_row(board: np.ndarray, col: int) -> int:
 			return row
 	return -1
 
-def avaiable_moves(board: np.ndarray) -> list:
+
+def available_moves(board: np.ndarray) -> list | int:
 	avaiable_moves = []
-	for i in range(c.ROWS):
-		for j in range(c.COLUMNS):
-			if(board[i][j])==0:
-				avaiable_moves.append(j)
-	return avaiable_moves
+	for i in range(c.COLUMNS):
+		if(board[5][i])==0:
+			avaiable_moves.append(i)
+	return avaiable_moves if len(avaiable_moves) > 0 else -1
 
 
 def drop_piece(board: np.ndarray, row: int, col: int, piece: int) -> None:
